@@ -36,7 +36,9 @@
 		<h:form id="frm">
 			<p:messages showDetail="false" showSummary="true" autoUpdate="true" />
 
-			<p:panelGrid columns="2" id="grid">
+			<!--<p:panelGrid columns="0" id="grid">  -->
+			
+			 <p:panelGrid columns="8"  id="grid" style="width:90%"> 
 
 				<!-- <p:outputLabel value="Tipo" for="tipo" />
 				<p:selectOneButton id="tipo"
@@ -55,10 +57,25 @@
 						var="pessoa" itemValue="#{pessoa}" itemLabel="#{pessoa.nome}" />
 				</p:selectOneMenu> -->
 				
-				<p:inputText id="nome" size="5"
+				<p:inputText type="hidden" id="nome" size="5"
 					value="#{relatorioLancamentosBean.nome}">
 					<!--  <f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />-->
 				</p:inputText>
+				
+				<p:inputText type="hidden" id="saldoNegativos" size="8"
+					value="#{relatorioLancamentosBean.saldoNegativos}">
+				</p:inputText>
+				
+				<p:inputText type="hidden" id="lucro" size="8"
+					value="#{relatorioLancamentosBean.lucro}">
+				</p:inputText>
+				
+				<p:inputText type="hidden" id="total" size="8"
+					value="#{relatorioLancamentosBean.total}">
+				</p:inputText>
+				
+				
+				
 				<!--  <p:commandButton value="Pesquisar"
 						action="#{consultaLancamentosBean.consultar}" icon="ui-icon-disk" />-->
 				<br /><br />		
@@ -77,7 +94,7 @@
 
 
 				<p:dataTable value="#{consultaLancamentosBean.lancamentos}"
-				var="lancamento" border="1" cellspacing="0" cellpadding="2"
+				var="lancamento"  style="margin-top:5px"
 				paginator="true" rows="15" paginatorPosition="bottom">
 				<p:column headerText="Pessoa" sortBy="#{lancamento.pessoa.nome}">
 					<h:outputText value="#{lancamento.pessoa.nome}" />

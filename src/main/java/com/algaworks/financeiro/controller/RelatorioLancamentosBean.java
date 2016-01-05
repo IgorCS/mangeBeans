@@ -1,7 +1,7 @@
 package com.algaworks.financeiro.controller;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.Session;
 
+import com.algaworks.financeiro.repository.Lancamentos;
 import com.algaworks.financeiro.util.jsf.FacesUtil;
 import com.algaworks.financeiro.util.report.ExecutorRelatorio;
 
@@ -29,9 +30,19 @@ public class RelatorioLancamentosBean implements Serializable {
 	
 	//private Long id;
 	private String nome;
-	//private Long id;
-
 	
+	private BigDecimal total;
+	
+    private BigDecimal saldoNegativos;
+	
+	private BigDecimal lucro;
+	
+	@Inject
+	private ConsultaLancamentosBean lancamentosbean;
+	
+	
+	@Inject
+	private Lancamentos lancamentos;
 
 	@Inject
 	private FacesContext facesContext;
@@ -42,12 +53,20 @@ public class RelatorioLancamentosBean implements Serializable {
 	@Inject
 	private EntityManager manager;
 
+	
+
 	public void emitir() {
 		Map<String, Object> parametros = new HashMap<>();
 		//parametros.put("data_inicio", this.dataInicio);
 		//parametros.put("data_fim", this.dataFim);
 		//parametros.put("usuario", this.id);
 		parametros.put("nome", this.nome);
+		parametros.put("saldoNegativos",this.saldoNegativos);
+		parametros.put("lucro",this.lucro);
+		parametros.put("total",this.total);
+		
+		System.out.println("saldoNegativos=>"+lancamentos.saldoNegativo()+" LUCRO:"+lancamentosbean.getLucro()
+		+" Total de Receitas:"+ lancamentosbean.getTotal());				
 		
 		ExecutorRelatorio executor = new ExecutorRelatorio("/relatorios/relatorioLancamentos.jasper",
 				this.response, parametros, "Lancamentos.pdf");
@@ -60,8 +79,7 @@ public class RelatorioLancamentosBean implements Serializable {
 		} else {
 			FacesUtil.addErrorMessage("A execução do relatório não retornou dados.");
 		}
-	}
-	
+	}	
 	/*@NotNull
 	public Long getId() {
 		return id;
@@ -70,6 +88,42 @@ public class RelatorioLancamentosBean implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}*/
+	
+	@NotNull
+	ConsultaLancamentosBean luc = new ConsultaLancamentosBean();
+	public BigDecimal getLucro() {
+		return lucro;
+	}
+
+	public void setLucro(BigDecimal lucro) {
+		this.lucro = lancamentosbean.getLucro();
+	}
+	
+	@NotNull
+	ConsultaLancamentosBean tot = new ConsultaLancamentosBean();
+	public BigDecimal getTotal() {
+		return total;
+	}
+
+	public void setTotal(BigDecimal total) {
+		this.total = lancamentosbean.getTotal();
+	}	
+	
+	//lancamentos.Lucro(15)
+	
+	
+	@NotNull
+	ConsultaLancamentosBean sneg = new ConsultaLancamentosBean();
+	public BigDecimal getSaldoNegativos() {
+		return saldoNegativos;
+	}
+
+	public void setSaldoNegativos(BigDecimal saldoNegativos) {
+		this.saldoNegativos = lancamentos.saldoNegativo();
+	}	
+	
+
+
 	
 	@NotNull
 	UsuarioController user = new UsuarioController();

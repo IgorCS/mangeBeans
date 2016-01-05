@@ -1,18 +1,18 @@
 package com.algaworks.financeiro.controller;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CartesianChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
 
 import com.algaworks.financeiro.model.Lancamento;
 
